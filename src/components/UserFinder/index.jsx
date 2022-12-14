@@ -2,14 +2,13 @@ import { Fragment, /*useState, useEffect,*/ Component } from "react";
 import styles from "./UserFinder.module.css";
 
 import Users from "../Users";
-
-const DUMMY_USERS = [
-  { id: "u1", name: "Max" },
-  { id: "u2", name: "Manuel" },
-  { id: "u3", name: "Julie" },
-];
+import UsersContext from "../../store/users-context";
 
 class UserFinder extends Component {
+  // On functional components we could use [useContext]
+  // so on class-based components, we can't use more than one context.
+  static contextType = UsersContext;
+
   //   constructor() {
   //     super();
   //     this.state = {
@@ -27,14 +26,15 @@ class UserFinder extends Component {
   // we can compare with the use of [useEffect] with no dependencies
   // or maybe a variable that was created/initialized once the component starts.
   componentDidMount() {
-    this.setState({ filteredUsers: DUMMY_USERS });
+    this.setState({ filteredUsers: this.context.users });
   }
 
-  // On functional components, we can compare with the use of [useEffect] with a dependency array filled.
+  // On functional components,
+  // we can compare with the use of[useEffect] with a dependency array filled.
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchTerm !== this.state.searchTerm) {
       this.setState({
-        filteredUsers: DUMMY_USERS.filter((user) =>
+        filteredUsers: this.context.users.filter((user) =>
           user.name.toLowerCase().includes(this.state.searchTerm.toLowerCase())
         ),
       });

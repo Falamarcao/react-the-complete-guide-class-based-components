@@ -1,10 +1,11 @@
 import UserFinder from "./components/UserFinder";
+import UsersProvider from "./store/UsersProvider";
 
 function App() {
   return (
-    <div>
+    <UsersProvider>
       <UserFinder />
-    </div>
+    </UsersProvider>
   );
 }
 
